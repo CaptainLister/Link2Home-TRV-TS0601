@@ -49,6 +49,24 @@ External-converter paths and configuration details can vary by installation and 
 - Diagnostic mappings for other datapoints were not reliable evidence of their meaning. Values shown by a diagnostic entity were not assumed to be valid unless corroborated by actual raw Tuya reports and a controlled test.
 - Other TS0601/Saswell-family TRVs may use different datapoint maps. Do not assume candidate datapoints from other models apply to this fingerprint.
 
+
+## Related supported variant: TS0601_wsek35um
+
+A related Tuya radiator thermostat is documented in Zigbee2MQTT as [`TS0601_wsek35um`](https://www.zigbee2mqtt.io/devices/TS0601_wsek35um.html). Its upstream converter was added in [zigbee-herdsman-converters PR #13227](https://github.com/Koenkk/zigbee-herdsman-converters/pull/13227).
+
+**Do not assume it is the same firmware or use its datapoint map unchanged.** The upstream definition identifies the other device as `TS0601` / `_TZE204_wsek35um`; this repository's Link2Home device identifies as `TS0601` / `_TZE200_7ww4sfzm`. The suffixes and full manufacturer fingerprints differ, and the two observed datapoint maps are not the same.
+
+The upstream `TS0601_wsek35um` definition documents:
+
+| DP | Meaning on that variant |
+|---:|---|
+| 2 | Mode: `Off`, `Cold`, `Night`, `Day`, `Scheduled` |
+| 4 | Target setpoint, divided by 10 |
+| 5 | Local temperature, divided by 10 |
+| 7 | Children-lock status |
+
+For the Link2Home fingerprint documented here, current captured evidence instead confirms DP 103 for target setpoint and suggests DP 102 for local temperature. The lock and schedule experiments performed here did not capture a corresponding raw mode/lock datapoint, so DP 2 and DP 7 are **unverified hypotheses only** for the Link2Home model. Switching schedule modes coincided with a target changing from 19 °C to 16 °C, which is consistent with a programmed target being applied, but the mode datapoint itself was not captured. This behavioural similarity is worth investigating; it is not proof that the two models are identical.
+
 ## Related reports
 
 Earlier incomplete support reports for this fingerprint:
